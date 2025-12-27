@@ -1,3 +1,3 @@
-# Gradle Base Template
+# LWJGL Base Template
 
-A base template for Gradle projects
+A base template for LWJGL physics simulation projects.
