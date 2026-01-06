@@ -44,24 +44,12 @@ public class Main {
 
     private void loop() {
 
-        double yAxisCoordinate = 0;
-        double xAxisCoordinate = 0;
-        double dy = -0.015;
-        double dx = 0.01;
+     
+        Particle myParticle = new Particle(0, 0, 0, -.001);
         
         while (!GLFW.glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT);
-
-            // Here is where we will render your physics later
-            dy = Math.abs(yAxisCoordinate) >= 1 ? -dy : dy;
-            dx = Math.abs(xAxisCoordinate) >= 1 ? -dx : dx;
-            
-            createCircle(xAxisCoordinate, yAxisCoordinate, .01);
-            yAxisCoordinate = yAxisCoordinate + dy;
-            xAxisCoordinate = xAxisCoordinate + dx;
-
-            // createPoint(0.3, 0.3, 100);
-            // createTriangle(-0.1, -0.2);
+            myParticle.update();
             
             GLFW.glfwSwapBuffers(window);
             GLFW.glfwPollEvents();
@@ -123,7 +111,37 @@ public class Main {
             this.x = x;
             this.y = y;
             this.mass = mass;
-        }        
+        }
+        
+        public Particle(double x, double y, double xForce, double yForce){
+            this.x = x;
+            this.y = y;
+
+            this.mass = 1;
+
+            this.xAcceleration = xForce;
+            this.yAcceleration = yForce;
+        }
+        
+        public void update(){
+            xVelocity = xVelocity + xAcceleration;
+            yVelocity = yVelocity + yAcceleration;
+
+            x = x + xVelocity;
+            y = y + yVelocity;
+            
+            if(Math.abs(x) >= 1){
+                x= x > 0 ? 1 : -1;
+                xVelocity = -xVelocity;
+            }
+
+            if(Math.abs(y) >= 1){
+                y= y > 0 ? 1 : -1;
+                yVelocity=-yVelocity;
+            }
+       
+            createCircle(this.x, this.y, 0.01);
+        }
     }
     
 }
