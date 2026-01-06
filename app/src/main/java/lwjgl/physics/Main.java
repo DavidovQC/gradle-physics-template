@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_POINTS;
+import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
 import static org.lwjgl.opengl.GL11.glBegin;
@@ -43,18 +44,36 @@ public class Main {
     }
 
     private void loop() {
-
-     
-        Particle myParticle = new Particle(0, 0, 0, -.001);
+        Particle myParticle1 = new Particle(-1,.9 , .01, 0, 0, -0.001);
+        Particle myParticle2 = new Particle(0,.9 , .0, 0, 0, -0.001);
         
         while (!GLFW.glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT);
-            myParticle.update();
+            myParticle1.update();
+            myParticle2.update();
             
             GLFW.glfwSwapBuffers(window);
             GLFW.glfwPollEvents();
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private void createPoint(double x, double y, int size){    
         glPointSize(size);         // size of the point in pixels    
@@ -62,6 +81,14 @@ public class Main {
         glVertex2d(x, y);          // coordinates of the point (center)
         glEnd();                   // finish drawing
     }
+
+    private void createHorizontalLine(double y, double xMin, double xMax) {
+        glBegin(GL_LINES);
+        glVertex2d(xMin, y);
+        glVertex2d(xMax, y);
+        glEnd();
+    }
+
 
     private void createTriangle(double x, double y){    
         glBegin(GL_TRIANGLES);
@@ -122,6 +149,19 @@ public class Main {
             this.xAcceleration = xForce;
             this.yAcceleration = yForce;
         }
+
+        public Particle(double x, double y, double xVelocity, double yVelocity, double xAcceleration, double yAcceleration){
+            this.x = x;
+            this.y = y;
+
+            this.mass = 1;
+
+            this.xVelocity = xVelocity;
+            this.yVelocity = yVelocity;
+
+            this.xAcceleration = xAcceleration;
+            this.yAcceleration = yAcceleration;
+        }
         
         public void update(){
             xVelocity = xVelocity + xAcceleration;
@@ -141,6 +181,7 @@ public class Main {
             }
        
             createCircle(this.x, this.y, 0.01);
+            // createHorizontalLine(this.y, -1, 1);
         }
     }
     
