@@ -9,6 +9,7 @@ import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glPointSize;
 import static org.lwjgl.opengl.GL11.glVertex2d;
@@ -44,8 +45,8 @@ public class Main {
     }
 
     private void loop() {
-        Particle myParticle1 = new Particle(-1,.9 , .01, 0, 0, -0.001);
-        Particle myParticle2 = new Particle(0,.9 , .0, 0, 0, -0.001);
+        Particle myParticle1 = new Particle(-1,.9 , .01, 0, 0, -0.001); //initial x velocity 
+        Particle myParticle2 = new Particle(0,.9 , .0, 0, 0, -0.001); //no initial x velocity
         
         while (!GLFW.glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT);
@@ -57,24 +58,6 @@ public class Main {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private void createPoint(double x, double y, int size){    
         glPointSize(size);         // size of the point in pixels    
         glBegin(GL_POINTS);        // start drawing points
@@ -82,10 +65,18 @@ public class Main {
         glEnd();                   // finish drawing
     }
 
-    private void createHorizontalLine(double y, double xMin, double xMax) {
+    private void createHorizontalLine(double y, String color) {
+        if(color == "blue"){
+              glColor3f(0, 0, 1);   
+        } 
+
+        if(color == "red"){
+            glColor3f(1, 0, 0);   
+        }
+
         glBegin(GL_LINES);
-        glVertex2d(xMin, y);
-        glVertex2d(xMax, y);
+        glVertex2d(-1, y);
+        glVertex2d(1, y);
         glEnd();
     }
 
@@ -181,8 +172,8 @@ public class Main {
             }
        
             createCircle(this.x, this.y, 0.01);
-            // createHorizontalLine(this.y, -1, 1);
+            if(x == 0) createHorizontalLine(this.y, "blue");
+            else createHorizontalLine(this.y, "red");
         }
-    }
-    
+    }   
 }
